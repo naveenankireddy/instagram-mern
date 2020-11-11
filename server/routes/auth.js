@@ -3,7 +3,13 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../keys");
+const requireLogin = require("../middleware/requireLogin");
 
+router.get("/protected", requireLogin, (req, res) => {
+  res.send("Hello User");
+});
 router.post("/signup", (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -50,7 +56,9 @@ router.post("/signin", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          return res.json({ message: "Successfully signedin" });
+          // return res.json({ message: "Successfully signedin" });
+          const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
+          res.json({ token });
         } else {
           return res.status(422).json({ error: "Invalid email or password" });
         }
