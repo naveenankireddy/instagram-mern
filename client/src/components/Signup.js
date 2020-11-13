@@ -1,8 +1,6 @@
 import React from "react";
 import "../styles/signin.css";
 import { Link, useHistory } from "react-router-dom";
-// import { Formik } from "formik";
-// import axios from "axios";
 import { useState } from "react";
 import M from "materialize-css";
 
