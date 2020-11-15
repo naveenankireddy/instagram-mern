@@ -40,6 +40,8 @@ function Signin() {
           console.log(data, "hey im data");
           M.toast({ html: data.error, classes: "#e57373 red lighten-2" });
         } else {
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
           M.toast({
             html: "Succesfully Signed In",
             classes: "#ba68c8 purple lighten-2",
