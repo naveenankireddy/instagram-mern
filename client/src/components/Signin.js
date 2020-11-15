@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "../styles/signin.css";
 import { Link, useHistory } from "react-router-dom";
-import { useState } from "react";
 import M from "materialize-css";
+import { userContext } from "../App";
 
 function Signin() {
+  const { state, disatch } = useContext(userContext);
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +43,7 @@ function Signin() {
         } else {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
+          disatch({ type: "USER", payload: data.user });
           M.toast({
             html: "Succesfully Signed In",
             classes: "#ba68c8 purple lighten-2",

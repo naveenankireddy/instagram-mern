@@ -12,24 +12,6 @@ function CreatePost() {
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
 
-  const handleSubmit = () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "instagram-mern");
-    data.append("cloud_name", "dgtal2koc");
-    fetch("	https://api.cloudinary.com/v1_1/dgtal2koc/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUrl(data.url);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     if (url) {
       fetch("/createpost", {
@@ -56,8 +38,6 @@ function CreatePost() {
             });
           } else {
             console.log(data, "this thime avengers will come");
-            localStorage.setItem("jwt", data.token);
-            localStorage.setItem("user", data.user);
             M.toast({
               html: "Created Successfully",
               classes: "#ba68c8 purple lighten-2",
@@ -70,6 +50,23 @@ function CreatePost() {
         });
     }
   }, [url]);
+  const handleSubmit = () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "instagram-mern");
+    data.append("cloud_name", "dgtal2koc");
+    fetch("	https://api.cloudinary.com/v1_1/dgtal2koc/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUrl(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="card createpost input-field">
